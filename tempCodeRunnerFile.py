@@ -1,1 +1,0 @@
-print(questions_list)
