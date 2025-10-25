@@ -1,16 +1,17 @@
 import os
 import random
+import json
 
 os.system('cls' if os.name == 'nt' else 'clear') # clears terminal when running Python Script
 
 def get_questions(filepath):
     with open(filepath,'r') as file:
-                questions_list_local = file.readlines() # returns list
+                questions_list_local = json.load(file) # returns list
                 return questions_list_local
 
 def write_questions(filepath, questions):
     with open(filepath,'w') as file:
-                file.writelines(questions) # performs write() method on each list item
+                json.dump(questions, file) # performs write() method on each list item
 
 while True:
     user_action = input("Type add, show, remove, exit or start: ")
@@ -18,12 +19,12 @@ while True:
     
     match user_action:
         case 'add':
-            user_question = input("Write your question: ").strip()
+            user_question = input("Write your question: ").strip().title()
             boolean_answer = input("Is your question True or False: ").strip().title()
             
             questions_list = get_questions('questions_list.txt')
             
-            questions_list.append(str((user_question, boolean_answer)))
+            questions_list.append([user_question, boolean_answer])
             
             write_questions('questions_list.txt', questions_list)
                 
@@ -34,14 +35,15 @@ while True:
             
         case 'start':
             questions_list = get_questions('questions_list.txt')
-            """ Lots of parsing to get back data we need from tuple
-            as it's being return as a string and not as a tuple"""
-            random_question = random.choice(questions_list) #returns str
-            print(random_question)
-            print(type(random_question))
-            start_pos = random_question.find("('")
-            end_pos = random_question.find("',")
-            print("slice happens here: ", random_question[start_pos + 2 : end_pos])
+            random_question = random.choice(questions_list) 
+            print(random_question[0])
+            
+            user_answer = input("Is this statement true or false?").strip().title()
+            
+            if user_answer == random_question[1]:
+                print("Correct! You're amazing!")
+            else:
+                print("Wrong answer, better luck next time!")
             
             
         case 'exit':

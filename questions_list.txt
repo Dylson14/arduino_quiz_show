@@ -1,4 +1,1 @@
-('The sky is blue', True)
-('shrek is teal', 'False')
-('bananas are yellow', True)
-('eggplants are green', False)
+[["Sonic Is Blue", "True"], ["Shrek Is Yellow", "False"], ["Pineapples Are Purple", "False"], ["Chocolate Can Be White", "True"]]
