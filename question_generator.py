@@ -38,13 +38,14 @@ while True:
             random_question = random.choice(questions_list) 
             print(random_question[0])
             
-            user_answer = input("Is this statement true or false?").strip().title()
+            user_answer = input("Is this statement true or false? ").strip().title()
             
             if user_answer == random_question[1]:
                 print("Correct! You're amazing!")
             else:
                 print("Wrong answer, better luck next time!")
-            
+        case 'remove':
+            """ Next case I'll need to work on """   
             
         case 'exit':
             print('leaving quiz, thanks for playing')
@@ -53,6 +54,8 @@ while True:
         case _:
             print("Your command is invalid, try again")
     
+""" Main functionality of code works, I know need to send this information 
+to the Arduino and set up a basic answering board."""
 
     
             
