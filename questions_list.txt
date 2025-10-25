@@ -1,0 +1,4 @@
+This is a sentence
+Dylson in building
+('The sky is blue', True)
+('shrek is teal', 'False')
