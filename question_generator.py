@@ -41,9 +41,10 @@ while True:
             user_answer = input("Is this statement true or false? ").strip().title()
             
             if user_answer == random_question[1]:
-                print("Correct! You're amazing!")
+                print("CORRECT! You're amazing!")
             else:
-                print("Wrong answer, better luck next time!")
+                print("WRONG! Better luck next time!")
+                
         case 'remove':
             """ Next case I'll need to work on """   
             
