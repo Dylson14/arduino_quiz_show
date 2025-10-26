@@ -1,17 +1,14 @@
 import os
+import functions
 import random
-import json
+import serial
+import time
 
 os.system('cls' if os.name == 'nt' else 'clear') # clears terminal when running Python Script
+arduino = serial.Serial('COM4', 9600, timeout=1)
+time.sleep(2)
 
-def get_questions(filepath):
-    with open(filepath,'r') as file:
-                questions_list_local = json.load(file) # returns list
-                return questions_list_local
-
-def write_questions(filepath, questions):
-    with open(filepath,'w') as file:
-                json.dump(questions, file) # performs write() method on each list item
+print("Connected to Arduino!")
 
 while True:
     user_action = input("Type add, show, remove, exit or start: ")
@@ -22,19 +19,19 @@ while True:
             user_question = input("Write your question: ").strip().title()
             boolean_answer = input("Is your question True or False: ").strip().title()
             
-            questions_list = get_questions('questions_list.txt')
+            questions_list = functions.get_questions('questions_list.txt')
             
             questions_list.append([user_question, boolean_answer])
             
-            write_questions('questions_list.txt', questions_list)
+            functions.write_questions('questions_list.txt', questions_list)
                 
         case 'show':
-            questions_list = get_questions('questions_list.txt')
+            questions_list = functions.get_questions('questions_list.txt')
                 
             print(questions_list) 
             
         case 'start':
-            questions_list = get_questions('questions_list.txt')
+            questions_list = functions.get_questions('questions_list.txt')
             random_question = random.choice(questions_list) 
             print(random_question[0])
             
@@ -44,10 +41,7 @@ while True:
                 print("CORRECT! You're amazing!")
             else:
                 print("WRONG! Better luck next time!")
-                
-        case 'remove':
-            """ Next case I'll need to work on """   
-            
+        
         case 'exit':
             print('leaving quiz, thanks for playing')
             break
