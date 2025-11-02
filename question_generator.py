@@ -5,7 +5,7 @@ import serial
 import time
 
 os.system('cls' if os.name == 'nt' else 'clear') # clears terminal when running Python Script
-arduino = serial.Serial('COM8', 9600, timeout=1)
+arduino = serial.Serial('COM8', 9600, timeout=60)
 time.sleep(2)
 
 print("Connected to Arduino!")
@@ -43,13 +43,15 @@ while True:
             # data = arduino.readline() # receives data from Arduino in bytes b'True\n' (bytes)
             # data = data.decode() # converts data into string; 'True\n' (string)
             # data = data.strip() # removes the '\n'; 'True'
-            # The above code can be chained together to give:
+            # The above code can be chained together to give: user_answer = arduino.readline().decode().strip()
             
             # Wait for and read Arduino's response
-            user_answer = arduino.readline().decode().strip()
+            raw_answer = arduino.readline().decode('utf-8')
+            user_answer = ''.join(char for char in raw_answer if char.isalpha())
             
-            print(f"User answered: {user_answer}")
-            print(f"Correct answered: {random_question[1]}")
+            print(f"User answered: {repr(user_answer)}")
+            print(f"Correct answer: {repr(random_question[1])}")
+            print(f"Are they equal? {user_answer == random_question[1]}")
             
             # Compare answers
             if user_answer == random_question[1]:

@@ -29,19 +29,30 @@ void loop() {
    // RECEIVE: Check if Python sent LED commands
   switchStateTrue = digitalRead(2);
   switchStateFalse = digitalRead(3);
-  Serial.print("True");
+  
+
+  // Serial.print("True: ");
   // Serial.println(switchStateTrue);
-  // Serial.print("Is False?: ");
+
+  // Serial.print("False: ");
   // Serial.println(switchStateFalse);
+
+  if (switchStateTrue == HIGH) {
+    Serial.println("True");
+    delay(500);
+  }
+
+  if (switchStateFalse == HIGH) {
+    Serial.println("False");
+    delay(500);
+  }
 
   if (Serial.available() > 0) {
     python_message = Serial.readStringUntil('\n');
     python_message.trim();
-    
+    lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print(python_message);
-
-    Serial.print("True");
   }
 
   delay(100);
