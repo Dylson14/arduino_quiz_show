@@ -5,7 +5,7 @@ import serial
 import time
 
 os.system('cls' if os.name == 'nt' else 'clear') # clears terminal when running Python Script
-arduino = serial.Serial('COM4', 9600, timeout=1)
+arduino = serial.Serial('COM8', 9600, timeout=1)
 time.sleep(2)
 
 print("Connected to Arduino!")
@@ -31,27 +31,41 @@ while True:
             print(questions_list) 
             
         case 'start':
+            """ Here is where I need to send data to arduino """
             questions_list = functions.get_questions('questions_list.txt')
             random_question = random.choice(questions_list) 
-            print(random_question[0])
             
-            user_answer = input("Is this statement true or false? ").strip().title()
+            arduino.write((random_question[0] + '\n').encode()) # sends data to Arduino in bytes
             
+            print("Waiting for answer...")
+            
+            # wait for user to press a btn and Arduino to send answer back
+            # data = arduino.readline() # receives data from Arduino in bytes b'True\n' (bytes)
+            # data = data.decode() # converts data into string; 'True\n' (string)
+            # data = data.strip() # removes the '\n'; 'True'
+            # The above code can be chained together to give:
+            
+            # Wait for and read Arduino's response
+            user_answer = arduino.readline().decode().strip()
+            
+            print(f"User answered: {user_answer}")
+            print(f"Correct answered: {random_question[1]}")
+            
+            # Compare answers
             if user_answer == random_question[1]:
-                print("CORRECT! You're amazing!")
+                arduino.write(b'Correct!\n')
+                print("Correct!")
             else:
-                print("WRONG! Better luck next time!")
-        
+                arduino.write(b'Wrong!\n')
+                print("Wrong!")
+            
+            
         case 'exit':
             print('leaving quiz, thanks for playing')
+            time.sleep(0.5) 
+            arduino.close()
             break
         
         case _:
             print("Your command is invalid, try again")
     
-""" Main functionality of code works, I know need to send this information 
-to the Arduino and set up a basic answering board."""
-
-    
-            
-            
